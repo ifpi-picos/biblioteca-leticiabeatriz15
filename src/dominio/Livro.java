@@ -13,6 +13,9 @@ public class Livro {
         this.editora = nomeEditora;
         this.ano = ano;
     }
+    public void exibirValoresLivro() {
+        System.out.printf("%nTítulo do livro: %s %nNome do autor: %s %nEditora: %s %nAno em que foi lançado: %d %n", titulo, autor, editora, ano);
+    }
     public String getTitulo() {
         return titulo;
     }
