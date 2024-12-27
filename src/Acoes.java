@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import src.dominio.Emprestimo;
 import src.dominio.Livro;
+import src.dominio.Usuario;
 
 public class Acoes {
     static Scanner scanner = new Scanner(System.in);
@@ -48,6 +50,21 @@ public class Acoes {
                 default:
                     break;
             }
-            
     }
+
+    public static void cadastrarUsuario() {
+        System.out.println("Digite o nome do usuário: ");
+        String nomeUsuario = scanner.next();
+
+        System.out.println("Digite o CPF do usuário: ");
+        String cpf = scanner.next();
+
+        System.out.println("Digite o email do usuário: ");
+        String email = scanner.next();
+
+        Usuario novoUsuario = new Usuario(nomeUsuario, cpf, email);
+        System.out.println("Usuário cadastrado com sucesso!");
+        
+    }
+
 }
