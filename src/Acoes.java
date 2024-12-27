@@ -28,11 +28,26 @@ public class Acoes {
         livrosBiblioteca.add(novoLivro);
 
         System.out.println("O livro é -->" + livrosBiblioteca.get(0).getTitulo());
-
-        // scanner.close();
     }
 
-    // public static void listaLivros(){
-    //     System.out.println("Veio aq");
-    // }
+    public static void listaLivros(){
+            System.out.println("Escolha uma das opções abaixo:\n 1- Listar todos os livros\n 2- Listar livros emprestados\n 3- Listar livros disponíveis");
+            int opção = scanner.nextInt();
+
+            switch (opção) {
+                case 1:
+                    for(int i = 0; i < livrosBiblioteca.size(); i++){
+                        System.out.println("\nLivro " + (i + 1) + ":");
+                        livrosBiblioteca.get(i).exibirValoresLivro();
+                    }
+                    break;
+                case 2: 
+                    break;
+                case 3:
+                    break;
+                default:
+                    break;
+            }
+            
+    }
 }
