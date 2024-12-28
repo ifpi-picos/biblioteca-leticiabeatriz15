@@ -53,6 +53,7 @@ public class Acoes {
                         emprestimos.get(i).getLivroEmprestado().exibirValoresLivro();
                         System.out.println("\nEmprestado para o Usuário:");
                         emprestimos.get(i).getUsuarioRetirante().exibirValoresUsuario();
+                        System.out.println("Emprestado no dia: " + emprestimos.get(i).getDataEmprestimo() + "Data de devolução: " + emprestimos.get(i).getDataEmprestimo().plusDays(7));
                     }
                     break;
                 case 3:
@@ -108,6 +109,8 @@ public class Acoes {
 
         Emprestimo novoEmprestimo = new Emprestimo(livroEncontrado, userEncontrado);
         emprestimos.add(novoEmprestimo);
+        
+        Usuario.historicoEmprestimos(livroEncontrado);
         System.out.println("Empréstimo realizado com sucesso!");
         
     }
