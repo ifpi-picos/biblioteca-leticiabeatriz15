@@ -84,34 +84,39 @@ public class Acoes {
     }
 
     public static void emprestimoLivros() {
-        System.out.println("Digite o CPF do usuário que deseja emprestar o livro: ");
-        String cpf = scanner.next();
 
         Usuario userEncontrado = null;
-        for(Usuario user : usuariosCadastrados){
-            if(user.getCpf().equals(cpf)){
+        do {
+            System.out.println("Digite o CPF do usuário que deseja emprestar o livro: ");
+            String cpf = scanner.next();
+
+            for(Usuario user : usuariosCadastrados){
+                if(user.getCpf().equals(cpf)){
                 userEncontrado = user;
                 break;
             }
-        }
-
-        System.out.println("Digite o nome do livro que deseja emprestar: ");
-        String nomeLivro = scanner.next();
+            }
+        }while(userEncontrado == null);
 
         Livro livroEncontrado = null;
-        for(Livro livro : livrosDisponíveis){
-            if(livro.getTitulo().equals(nomeLivro)){
-                livroEncontrado = livro;
-                livrosDisponíveis.remove(livro);
-                break;
-            }
-        }
+        do {
+            System.out.println("Digite o nome do livro que deseja emprestar: ");
+            String nomeLivro = scanner.next();
 
-        Emprestimo novoEmprestimo = new Emprestimo(livroEncontrado, userEncontrado);
-        emprestimos.add(novoEmprestimo);
-        
-        Usuario.historicoEmprestimos(livroEncontrado);
-        System.out.println("Empréstimo realizado com sucesso!");
-        
-    }
+            for(Livro livro : livrosDisponíveis){
+                if(livro.getTitulo().equals(nomeLivro)){
+                    livroEncontrado = livro;
+                    livrosDisponíveis.remove(livro);
+                    break;
+                }
+            }
+        } while (livroEncontrado == null);
+
+            Emprestimo novoEmprestimo = new Emprestimo(livroEncontrado, userEncontrado);
+            emprestimos.add(novoEmprestimo);
+            Usuario.historicoEmprestimos(livroEncontrado);
+
+            System.out.println("Empréstimo realizado com sucesso!");
+        }
+    
 }
