@@ -7,7 +7,7 @@ public class Usuario {
     private String nome;
     private String cpf;
     private String email;
-    private static List<Livro> historicoEmprestimos = new ArrayList<>();
+    private List<Livro> historicoEmprestimos = new ArrayList<>();
     
         public Usuario(String nomeUsuario, String cpf, String email){
             this.nome = nomeUsuario;
@@ -39,7 +39,7 @@ public class Usuario {
             this.email = email;
         }
     
-        public static void historicoEmprestimos(Livro livroRetirado){
+        public void historicoEmprestimos(Livro livroRetirado){
             historicoEmprestimos.add(livroRetirado);
     }
 

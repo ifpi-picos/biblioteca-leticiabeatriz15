@@ -19,9 +19,10 @@ public class App {
                     }
                     break;
                 case 3:
-                    Acoes.emprestimoLivros();
+                    Acoes.emprestimoLivro();
                     break;
                 case 4:
+                    Acoes.devolucaoLivro();
                     break;
                 case 5:
                     Acoes.cadastrarUsuario();

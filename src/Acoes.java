@@ -53,7 +53,7 @@ public class Acoes {
                         emprestimos.get(i).getLivroEmprestado().exibirValoresLivro();
                         System.out.println("\nEmprestado para o Usuário:");
                         emprestimos.get(i).getUsuarioRetirante().exibirValoresUsuario();
-                        System.out.println("Emprestado no dia: " + emprestimos.get(i).getDataEmprestimo() + "Data de devolução: " + emprestimos.get(i).getDataEmprestimo().plusDays(7));
+                        System.out.println("Emprestado no dia: " + emprestimos.get(i).getDataEmprestimo() + " Data de devolução: " + emprestimos.get(i).getDataEmprestimo().plusDays(7));
                     }
                     break;
                 case 3:
@@ -83,7 +83,7 @@ public class Acoes {
         
     }
 
-    public static void emprestimoLivros() {
+    public static void emprestimoLivro() {
 
         Usuario userEncontrado = null;
         do {
@@ -114,9 +114,45 @@ public class Acoes {
 
             Emprestimo novoEmprestimo = new Emprestimo(livroEncontrado, userEncontrado);
             emprestimos.add(novoEmprestimo);
-            Usuario.historicoEmprestimos(livroEncontrado);
+            userEncontrado.historicoEmprestimos(livroEncontrado);
 
             System.out.println("Empréstimo realizado com sucesso!");
+        }
+
+        public static void devolucaoLivro(){
+            Usuario userEncontrado = null;
+            do {
+                System.out.println("Digite o CPF do usuário que deseja devolver o livro: ");
+                String cpf = scanner.next();
+
+                for(Usuario user : usuariosCadastrados){
+                    if(user.getCpf().equals(cpf)){
+                    userEncontrado = user;
+                    break;
+                }
+                }
+            }while(userEncontrado == null);
+
+            if(userEncontrado.getHistoricoEmprestimos() != null){
+                System.out.println("Qual o titulo do livro que deseja devolver? ");
+                String nomeLivro = scanner.next();
+
+                for(Livro livro : userEncontrado.getHistoricoEmprestimos()){
+
+                    if(livro.getTitulo().equals(nomeLivro) && livro.isEmprestimo() == true){
+                        livro.exibirValoresLivro();
+                        livro.setEmprestimo(false);
+                        for(int i = 0; i < emprestimos.size(); i++){
+                            if(livro == emprestimos.get(i).getLivroEmprestado()){
+                                emprestimos.remove(i);
+                                livrosDisponíveis.add(livro);
+                            } 
+                        }      
+                    }
+                }
+                System.out.println("Livro devolvido!");
+            }
+        
         }
     
 }
