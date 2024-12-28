@@ -11,6 +11,8 @@ import src.dominio.Usuario;
 public class Acoes {
     static Scanner scanner = new Scanner(System.in);
     static List<Livro> livrosBiblioteca = new ArrayList<>();
+    static List<Usuario> usuariosCadastrados = new ArrayList<>();
+    static List<Emprestimo> emprestimos = new ArrayList<>();
 
     public static void cadastrarLivro(){
         System.out.println("Digite o nome do livro: ");
@@ -63,8 +65,36 @@ public class Acoes {
         String email = scanner.next();
 
         Usuario novoUsuario = new Usuario(nomeUsuario, cpf, email);
+        usuariosCadastrados.add(novoUsuario);
         System.out.println("Usuário cadastrado com sucesso!");
         
     }
 
+    public static void emprestimoLivros() {
+        System.out.println("Digite o CPF do usuário que deseja emprestar o livro: ");
+        String cpf = scanner.next();
+
+        Usuario userEncontrado = null;
+        for(Usuario user : usuariosCadastrados){
+            if(user.getCpf().equals(cpf)){
+                userEncontrado = user;
+                break;
+            }
+        }
+
+        System.out.println("Digite o nome do livro que deseja emprestar: ");
+        String nomeLivro = scanner.next();
+
+        Livro livroEncontrado = null;
+        for(Livro livro : livrosBiblioteca){
+            if(livro.getTitulo().equals(nomeLivro)){
+                livroEncontrado = livro;
+                break;
+            }
+        }
+
+        Emprestimo novoEmprestimo = new Emprestimo(livroEncontrado, userEncontrado);
+        emprestimos.add(novoEmprestimo);
+        
+    }
 }
