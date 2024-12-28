@@ -11,6 +11,10 @@ public class Usuario {
         this.email = email;
     }
 
+    public void exibirValoresUsuario() {
+        System.out.printf("%nNome: %s %nCpf: %s %nEmail: %s %n", nome, cpf, email);
+    }
+
     public String getNome() {
         return nome;
     }

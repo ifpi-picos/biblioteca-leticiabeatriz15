@@ -11,6 +11,7 @@ import src.dominio.Usuario;
 public class Acoes {
     static Scanner scanner = new Scanner(System.in);
     static List<Livro> livrosBiblioteca = new ArrayList<>();
+    static List<Livro> livrosDisponíveis = new ArrayList<>();
     static List<Usuario> usuariosCadastrados = new ArrayList<>();
     static List<Emprestimo> emprestimos = new ArrayList<>();
 
@@ -30,6 +31,7 @@ public class Acoes {
         Livro novoLivro = new Livro(nomeLivro, nomeAutor, nomeEditora, anoLivro);
         novoLivro.exibirValoresLivro();
         livrosBiblioteca.add(novoLivro);
+        livrosDisponíveis.add(novoLivro);
 
         System.out.println("O livro é -->" + livrosBiblioteca.get(0).getTitulo());
     }
@@ -46,8 +48,18 @@ public class Acoes {
                     }
                     break;
                 case 2: 
+                    for(int i = 0; i < emprestimos.size();i++){
+                        System.out.println("\nLivro " + (i + 1) + ":");
+                        emprestimos.get(i).getLivroEmprestado().exibirValoresLivro();
+                        System.out.println("\nEmprestado para o Usuário:");
+                        emprestimos.get(i).getUsuarioRetirante().exibirValoresUsuario();
+                    }
                     break;
                 case 3:
+                    for(int i = 0; i < livrosDisponíveis.size();i++){
+                        System.out.println("\nLivro " + (i + 1) + ":");
+                        livrosDisponíveis.get(i).exibirValoresLivro();
+                    }
                     break;
                 default:
                     break;
@@ -86,15 +98,17 @@ public class Acoes {
         String nomeLivro = scanner.next();
 
         Livro livroEncontrado = null;
-        for(Livro livro : livrosBiblioteca){
+        for(Livro livro : livrosDisponíveis){
             if(livro.getTitulo().equals(nomeLivro)){
                 livroEncontrado = livro;
+                livrosDisponíveis.remove(livro);
                 break;
             }
         }
 
         Emprestimo novoEmprestimo = new Emprestimo(livroEncontrado, userEncontrado);
         emprestimos.add(novoEmprestimo);
+        System.out.println("Empréstimo realizado com sucesso!");
         
     }
 }
