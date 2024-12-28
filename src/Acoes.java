@@ -37,33 +37,33 @@ public class Acoes {
     }
 
     public static void listaLivros(){
-            System.out.println("Escolha uma das opções abaixo:\n 1- Listar todos os livros\n 2- Listar livros emprestados\n 3- Listar livros disponíveis");
-            int opção = scanner.nextInt();
+        System.out.println("Escolha uma das opções abaixo:\n 1- Listar todos os livros\n 2- Listar livros emprestados\n 3- Listar livros disponíveis");
+        int opção = scanner.nextInt();
 
-            switch (opção) {
-                case 1:
-                    for(int i = 0; i < livrosBiblioteca.size(); i++){
-                        System.out.println("\nLivro " + (i + 1) + ":");
-                        livrosBiblioteca.get(i).exibirValoresLivro();
-                    }
-                    break;
-                case 2: 
-                    for(int i = 0; i < emprestimos.size();i++){
-                        System.out.println("\nLivro " + (i + 1) + ":");
-                        emprestimos.get(i).getLivroEmprestado().exibirValoresLivro();
-                        System.out.println("\nEmprestado para o Usuário:");
-                        emprestimos.get(i).getUsuarioRetirante().exibirValoresUsuario();
-                        System.out.println("Emprestado no dia: " + emprestimos.get(i).getDataEmprestimo() + " Data de devolução: " + emprestimos.get(i).getDataEmprestimo().plusDays(7));
-                    }
-                    break;
-                case 3:
-                    for(int i = 0; i < livrosDisponíveis.size();i++){
-                        System.out.println("\nLivro " + (i + 1) + ":");
-                        livrosDisponíveis.get(i).exibirValoresLivro();
-                    }
-                    break;
-                default:
-                    break;
+        switch(opção){
+            case 1:
+                for(int i = 0; i < livrosBiblioteca.size(); i++){
+                    System.out.println("\nLivro " + (i + 1) + ":");
+                    livrosBiblioteca.get(i).exibirValoresLivro();
+                }
+                break;
+            case 2: 
+                for(int i = 0; i < emprestimos.size();i++){
+                    System.out.println("\nLivro " + (i + 1) + ":");
+                    emprestimos.get(i).getLivroEmprestado().exibirValoresLivro();
+                    System.out.println("\nEmprestado para o Usuário:");
+                    emprestimos.get(i).getUsuarioRetirante().exibirValoresUsuario();
+                    System.out.println("Emprestado no dia: " + emprestimos.get(i).getDataEmprestimo() + " Data de devolução: " + emprestimos.get(i).getDataEmprestimo().plusDays(7));
+                }
+                break;
+            case 3:
+                for(int i = 0; i < livrosDisponíveis.size();i++){
+                    System.out.println("\nLivro " + (i + 1) + ":");
+                    livrosDisponíveis.get(i).exibirValoresLivro();
+                }
+                break;
+            default:
+                break;
             }
     }
 
@@ -84,7 +84,6 @@ public class Acoes {
     }
 
     public static void emprestimoLivro() {
-
         Usuario userEncontrado = null;
         do {
             System.out.println("Digite o CPF do usuário que deseja emprestar o livro: ");
@@ -92,9 +91,9 @@ public class Acoes {
 
             for(Usuario user : usuariosCadastrados){
                 if(user.getCpf().equals(cpf)){
-                userEncontrado = user;
-                break;
-            }
+                    userEncontrado = user;
+                    break;
+                }
             }
         }while(userEncontrado == null);
 
@@ -112,47 +111,66 @@ public class Acoes {
             }
         } while (livroEncontrado == null);
 
-            Emprestimo novoEmprestimo = new Emprestimo(livroEncontrado, userEncontrado);
-            emprestimos.add(novoEmprestimo);
-            userEncontrado.historicoEmprestimos(livroEncontrado);
+        Emprestimo novoEmprestimo = new Emprestimo(livroEncontrado, userEncontrado);
+        emprestimos.add(novoEmprestimo);
+        userEncontrado.historicoEmprestimos(livroEncontrado);
 
-            System.out.println("Empréstimo realizado com sucesso!");
-        }
+        System.out.println("Empréstimo realizado com sucesso!");
+    }
 
-        public static void devolucaoLivro(){
-            Usuario userEncontrado = null;
-            do {
-                System.out.println("Digite o CPF do usuário que deseja devolver o livro: ");
-                String cpf = scanner.next();
+    public static void devolucaoLivro(){
+        Usuario userEncontrado = null;
+        do {
+            System.out.println("Digite o CPF do usuário que deseja devolver o livro: ");
+            String cpf = scanner.next();
 
-                for(Usuario user : usuariosCadastrados){
-                    if(user.getCpf().equals(cpf)){
+            for(Usuario user : usuariosCadastrados){
+                if(user.getCpf().equals(cpf)){
                     userEncontrado = user;
                     break;
                 }
+            }
+        }while(userEncontrado == null);
+
+        if(userEncontrado.getHistoricoEmprestimos() != null){
+            System.out.println("Qual o titulo do livro que deseja devolver? ");
+            String nomeLivro = scanner.next();
+
+            for(Livro livro : userEncontrado.getHistoricoEmprestimos()){
+                if(livro.getTitulo().equals(nomeLivro) && livro.isEmprestimo() == true){
+                    livro.exibirValoresLivro();
+                    livro.setEmprestimo(false);
+                    for(int i = 0; i < emprestimos.size(); i++){
+                        if(livro == emprestimos.get(i).getLivroEmprestado()){
+                            emprestimos.remove(i);
+                            livrosDisponíveis.add(livro);
+                        } 
+                    }      
                 }
-            }while(userEncontrado == null);
-
-            if(userEncontrado.getHistoricoEmprestimos() != null){
-                System.out.println("Qual o titulo do livro que deseja devolver? ");
-                String nomeLivro = scanner.next();
-
-                for(Livro livro : userEncontrado.getHistoricoEmprestimos()){
-
-                    if(livro.getTitulo().equals(nomeLivro) && livro.isEmprestimo() == true){
-                        livro.exibirValoresLivro();
-                        livro.setEmprestimo(false);
-                        for(int i = 0; i < emprestimos.size(); i++){
-                            if(livro == emprestimos.get(i).getLivroEmprestado()){
-                                emprestimos.remove(i);
-                                livrosDisponíveis.add(livro);
-                            } 
-                        }      
-                    }
-                }
+            }
                 System.out.println("Livro devolvido!");
             }
         
+    }
+
+    public static void historicoEmprestimosUsuario(){
+        Usuario userEncontrado = null;
+        do {
+            System.out.println("Digite o CPF do usuário que deseja ver o histórico: ");
+            String cpf = scanner.next();
+
+            for(Usuario user : usuariosCadastrados){
+                if(user.getCpf().equals(cpf)){
+                    userEncontrado = user;
+                    break;
+                }
+            }
+        }while(userEncontrado == null);
+
+        System.out.println("Emprestimos realizados para o usuário:");
+        for(Livro livroEmprestado : userEncontrado.getHistoricoEmprestimos()){
+            livroEmprestado.exibirValoresLivro();
         }
-    
+
+    } 
 }
